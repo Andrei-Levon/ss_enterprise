@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "andrei" {
   name     = "andrei-juneploy-test"
-  location = "West Europe"
+  location = "North Europe"
   tags = {
     owner = "andrei.inizian@redbull.com"
   }
@@ -55,7 +55,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   ]
 
-  size               = "Standard_DS1_v2"
+  size               = "Standard_D2ds_v4"
 
   admin_username     = "andrei"
 
