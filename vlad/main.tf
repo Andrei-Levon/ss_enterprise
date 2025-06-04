@@ -1,6 +1,6 @@
 resource "azurerm_resource_group" "vlad" {
-  name     = "vlad-juneploy-test"
-  location = "West Europe"
+  name     = "vlad-juneploy-test2"
+  location = "North Europe"
   tags = {
     owner = "vlad.orascu@redbull.com"
   }
@@ -40,7 +40,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   network_interface_ids = [
     azurerm_network_interface.vlad-nic.id,
   ]
-  size               = "Standard_DS1_v2"
+  size               = "Standard_A1_v2"
   admin_username     = "vlad"
   admin_password     = "34FDA$#214f"  # For demonstration purposes only. Use secure methods for production.
   disable_password_authentication = "false"
