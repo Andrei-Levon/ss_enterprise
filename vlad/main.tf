@@ -18,12 +18,42 @@ resource "azurerm_subnet" "vlad_subnet" {
   resource_group_name  = azurerm_resource_group.vlad.name
   virtual_network_name = azurerm_virtual_network.vlad-wmnet.name
   address_prefixes     = ["10.0.1.0/24"]
-  delegation {
-    name = "delegation"
+  }
 
-    service_delegation {
-      name    = "Microsoft.ContainerInstance/containerGroups"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"]
-    }
+  resource "azurerm_network_interface" "vlad-nic" {
+  name                = "vlad-nic"
+  location            = azurerm_resource_group.vlad.location
+  resource_group_name = azurerm_resource_group.vlad.name
+
+  ip_configuration {
+    name                          = "vlad-ipcfg"
+    subnet_id                     = azurerm_subnet.vlad_subnet.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+# Define the virtual machine
+resource "azurerm_linux_virtual_machine" "vm" {
+  name                = "vlad-vm"
+  location            = azurerm_resource_group.vlad.location
+  resource_group_name = azurerm_resource_group.vlad.name
+  network_interface_ids = [
+    azurerm_network_interface.vlad-nic.id,
+  ]
+  size               = "Standard_DS1_v2"
+  admin_username     = "vlad"
+  admin_password     = "34FDA$#214f"  # For demonstration purposes only. Use secure methods for production.
+  disable_password_authentication = "false"
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
   }
 }
