@@ -43,7 +43,7 @@ resource "azurerm_linux_virtual_machine" "vm" {
   network_interface_ids = [
     azurerm_network_interface.claudiu-nic.id,
   ]
-  size               = "Standard_DS1_v2"
+  size               = "Standard_D2ds_v4"
   admin_username     = "claudiu"
   admin_password     = "34FDA$#214f"  # For demonstration purposes only. Use secure methods for production.
   disable_password_authentication = "false"
